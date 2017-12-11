@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenHardwareMonitor.Collections;
 using OpenHardwareMonitor.Hardware;
+using System.Threading;
+using System.Globalization;
 
 namespace PC_Modernisator3000
 {
@@ -33,10 +35,8 @@ namespace PC_Modernisator3000
         //string[] precedents = { "Проблемы с изображением", "Недостаточная производительность ПК", "Компьютер долго запускается" };
         //string[] devicetypes = {"Процессор","Материнская плата", "Видеокарта", "Оперативная память", "Жесткий диск / SSD", "Блок питания", "Оптический привод", "Корпус", "Охлаждение процессора"};
 
-        private DateTime now;
         protected readonly ListSet<ISensor> active = new ListSet<ISensor>();
         public event SensorEventHandler SensorAdded;
-        public event SensorEventHandler SensorRemoved;
 
         protected virtual void ActivateSensor(ISensor sensor)
         {
@@ -48,10 +48,10 @@ namespace PC_Modernisator3000
         public Modernizator()
         {
             InitializeComponent();
+            btnUpdateMonitoring.Visible = false;
             cbPrecedent.SelectedIndexChanged += cbPrecedentTypeSelectedIndexChanged;
             //Parser.generateFile(0, null);
             cbDeviceType.SelectedIndexChanged += cbDeviceTypeSelectedIndexChanged;
-            tabControl1.SelectedIndexChanged += tabControl1SelectedIndexChanged;
             btnAdd.Click += btnAdd_Click;
             firstfunction();
             initPrecedents();
@@ -528,14 +528,6 @@ namespace PC_Modernisator3000
             updateMonitoring();
         }
 
-        private void tabControl1SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if(tabControl1.SelectedIndex == 2)
-            {
-                //TO DO функция для обновления данных с сенсоров в фоне
-            }
-        }
-
         void initMonitoring()
         {
             var myComputer = new Computer();
@@ -554,11 +546,27 @@ namespace PC_Modernisator3000
 
                 foreach (var sensor in hardwareItem.Sensors)
                 {
+                   // if(sensor.SensorType != SensorType.Fan && sensor.SensorType != SensorType.Control && sensor.SensorType != SensorType.Factor)
                     monitoring_data.Add(new Monitoring(sensor.SensorType, hardwareItem.Name, sensor.Name, Convert.ToDouble(sensor.Value)));
                 }
             }
+            monitoring_data = monitoring_data.OrderBy(a => a.GetHardwareName()).ThenBy(a => a.GetSensorType()).ThenBy(a => a.GetName()).ToList<Monitoring>();
+            //monitoring_data.Sort(
+            //    delegate (Monitoring p1, Monitoring p2)
+            //    {
+            //        int c1 = p1.GetHardwareName().CompareTo(p2.GetHardwareName());
+            //        int c2 = p1.GetSensorType().CompareTo(p2.GetSensorType());
+            //        if (p1.GetHardwareName() == p2.GetHardwareName())
+            //        {
+            //            if (p1.GetSensorType() == p2.GetSensorType())
+            //                return p1.GetName().CompareTo(p2.GetName());
+            //        }
+            //        return p1.GetHardwareName().CompareTo(p2.GetHardwareName());
+            //    }
+            //);
 
             showMonitoring();
+            bgUpdateMonitoring.RunWorkerAsync();
         }
 
         void updateMonitoring()
@@ -578,10 +586,11 @@ namespace PC_Modernisator3000
                 foreach (var sensor in hardwareItem.Sensors)
                 {
                     //UPDATE VALUES
-                    //int index = monitoring_data.FindIndex()
-                    //double maxValue = Math.Max(Convert.ToDouble(sensor.Value), monitoring_data[index].GetMaxValue())
-                    //monitoring_data[index].SetValue(Convert.ToDouble(sensor.Value))
-                    //monitoring_data[index].SetMaxValue(maxValue)
+                    
+                    int index = monitoring_data.FindIndex(x => (x.GetName() == sensor.Name && x.GetHardwareName() == hardwareItem.Name && x.GetSensorType() == sensor.SensorType));
+                    double maxValue = Math.Max(Convert.ToDouble(sensor.Value), monitoring_data[index].GetMaxValue());
+                    monitoring_data[index].SetValue((float)Convert.ToDouble(sensor.Value));
+                    monitoring_data[index].SetMaxValue((float)maxValue);
                 }
             }
 
@@ -609,7 +618,7 @@ namespace PC_Modernisator3000
 
                 if (item.GetSensorType() == SensorType.Clock)
                 {
-                    monitoring.Add(new string[] { "", "", item.GetName(), item.GetValue().ToString() + " MHz", item.GetMaxValue().ToString() + " MHz" });
+                    monitoring.Add(new string[] { "", "", item.GetName(), String.Format(CultureInfo.InvariantCulture,"{0:0.00}", item.GetValue()) + " MHz", String.Format(CultureInfo.InvariantCulture, "{0:0.00}", item.GetMaxValue()) + " MHz" });
                 }
                 else if (item.GetSensorType() == SensorType.Temperature)
                 {
@@ -617,23 +626,29 @@ namespace PC_Modernisator3000
                 }
                 else if (item.GetSensorType() == SensorType.Load)
                 {
-                    monitoring.Add(new string[] { "", "", item.GetName(), item.GetValue().ToString() + " %", item.GetMaxValue().ToString() + " %" });
+                    monitoring.Add(new string[] { "", "", item.GetName(), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", item.GetValue()) + " %", String.Format(CultureInfo.InvariantCulture, "{0:0.00}", item.GetMaxValue()) + " %" });
                 }
                 else if (item.GetSensorType() == SensorType.Data)
                 {
-                    monitoring.Add(new string[] { "", "", item.GetName(), item.GetValue().ToString() + " GB", item.GetMaxValue().ToString() + " GB" });
+                    monitoring.Add(new string[] { "", "", item.GetName(), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", item.GetValue()) + " GB", String.Format(CultureInfo.InvariantCulture, "{0:0.00}", item.GetMaxValue()) + " GB" });
                 }
                 else if (item.GetSensorType() == SensorType.SmallData)
                 {
-                    monitoring.Add(new string[] { "", "", item.GetName(), item.GetValue().ToString() + " MB", item.GetMaxValue().ToString() + " MB" });
+                    monitoring.Add(new string[] { "", "", item.GetName(), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", item.GetValue()) + " MB", String.Format(CultureInfo.InvariantCulture, "{0:0.00}", item.GetMaxValue()) + " MB" });
                 }
                 else if (item.GetSensorType() == SensorType.Power)
                 {
-                    monitoring.Add(new string[] { "", "", item.GetName(), item.GetValue().ToString() + " W", item.GetMaxValue().ToString() + " W" });
+                    monitoring.Add(new string[] { "", "", item.GetName(), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", item.GetValue()) + " W", String.Format(CultureInfo.InvariantCulture, "{0:0.00}", item.GetMaxValue()) + " W" });
+                }
+                else if (item.GetSensorType() == SensorType.Fan)
+                {
+                    monitoring.Add(new string[] { "", "", item.GetName(), item.GetValue().ToString() + " RPM", item.GetMaxValue().ToString() + " RPM" });
+                }
+                else if (item.GetSensorType() == SensorType.Control)
+                {
+                    monitoring.Add(new string[] { "", "", item.GetName(), item.GetValue().ToString() + " ", item.GetMaxValue().ToString() + " " });
                 }
             }
-
-            //TODO monitoring_data sort by hardware->sensor type 
 
             dgvMonitoring.ColumnCount = 5;
             dgvMonitoring.RowCount = monitoring.Count;
@@ -749,5 +764,13 @@ namespace PC_Modernisator3000
             return 1;
         }
 
+        private void bgUpdateMonitoring_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (true)
+            {
+                Thread.Sleep(1000);
+                updateMonitoring();
+            }
+        }
     }
 }
