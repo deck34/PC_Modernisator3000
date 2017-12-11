@@ -22,6 +22,7 @@ namespace PC_Modernisator3000
         List<Item> curconf = new List<Item>();
         List<Item> conf = new List<Item>();
         List<Item> templist = new List<Item>();
+        List<Monitoring> monitoring_data = new List<Monitoring>();
 
         string currentSocket = "";
         string currentDDR = "";
@@ -54,7 +55,7 @@ namespace PC_Modernisator3000
             btnAdd.Click += btnAdd_Click;
             firstfunction();
             initPrecedents();
-            updateMonitoring();
+            initMonitoring();
         }
 
         void firstfunction()
@@ -531,55 +532,13 @@ namespace PC_Modernisator3000
         {
             if(tabControl1.SelectedIndex == 2)
             {
-                //TO DO функция для обновления данных с сенсоров
+                //TO DO функция для обновления данных с сенсоров в фоне
             }
         }
 
-        void updateMonitoring()
+        void initMonitoring()
         {
-            //ManagementObjectSearcher searcher11 =
-            //    new ManagementObjectSearcher("root\\CIMV2",
-            //    "SELECT * FROM Win32_Processor  ");
-            List<string[]> monitoring = new List<string[]>();
-            //foreach (ManagementObject queryObj in searcher11.Get())
-            //{
-            //    monitoring.Add(new string[] { "Загрузка процессора", queryObj["LoadPercentage"].ToString() + " %" });
-
-            //}
-            //try
-            //{
-
-
-            //    ManagementObjectSearcher searcher12 =
-            //        new ManagementObjectSearcher("root\\WMI",
-            //        "SELECT * FROM MSAcpi_ThermalZoneTemperature  ");
-            //    foreach (ManagementObject queryObj in searcher12.Get())
-            //    {
-            //        monitoring.Add(new string[] { "Температура процессора", Convert.ToString(Convert.ToDouble(queryObj["CurrentTemperature"]) / 10 - 273.15) + " °C" });
-
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    //throw new Exception("Для вывода температуры запустите программу от имени администратора!");
-            //}
-            //ManagementObjectSearcher searcher13 =
-            //    new ManagementObjectSearcher("SELECT * FROM meta_class WHERE __class = 'Win32_LogicalDisk'");
-            ///*foreach (ManagementObject queryObj in searcher13.Get())
-            //{
-            //    monitoring.Add(new string[] { "Место", queryObj["Size"].ToString() + " %" } );
-            //}*/
-
-            //ObjectQuery DiskQuery = new System.Management.ObjectQuery("select FreeSpace, Size from Win32_LogicalDisk where DriveType = 3");
-            //ManagementObjectSearcher DiskSearcher = new ManagementObjectSearcher(DiskQuery);
-            //ManagementObjectCollection DiskCollection = DiskSearcher.Get();
-            //foreach (ManagementObject DiskInfo in DiskCollection)
-            //{
-            //    monitoring.Add(new string[] { "Всего/свободо места на диске", Math.Round(System.Convert.ToDouble(DiskInfo["Size"]) / 1024 / 1024 / 1024, 2).ToString() + " / " + Math.Round(System.Convert.ToDouble(DiskInfo["FreeSpace"]) / 1024 / 1024 / 1024, 2).ToString() + " Gb." });
-            //}
-
             var myComputer = new Computer();
-
             myComputer.CPUEnabled = true;
             myComputer.GPUEnabled = true;
             myComputer.RAMEnabled = true;
@@ -593,24 +552,99 @@ namespace PC_Modernisator3000
                 hardwareItem.Update();
                 //hardwareItem.GetReport();
 
-                 foreach (var sensor in hardwareItem.Sensors)
+                foreach (var sensor in hardwareItem.Sensors)
                 {
-                   // if (sensor.SensorType == SensorType.Temperature)
-                    //{
-                        //Console.WriteLine("{0} {1} {2} = {3}", sensor.Name, sensor.Hardware, sensor.SensorType, sensor.Value);
-                        monitoring.Add(new string[] { sensor.Name.ToString() + " " + sensor.SensorType.ToString(),  sensor.Value.ToString()});
-                    //}
-
+                    monitoring_data.Add(new Monitoring(sensor.SensorType, hardwareItem.Name, sensor.Name, Convert.ToDouble(sensor.Value)));
                 }
             }
 
-            dgvMonitoring.ColumnCount = 2;
+            showMonitoring();
+        }
+
+        void updateMonitoring()
+        {
+            var myComputer = new Computer();
+            myComputer.CPUEnabled = true;
+            myComputer.GPUEnabled = true;
+            myComputer.RAMEnabled = true;
+            myComputer.HDDEnabled = true;
+            myComputer.MainboardEnabled = true;
+            myComputer.Open();
+
+            foreach (var hardwareItem in myComputer.Hardware)
+            {
+                hardwareItem.Update();
+
+                foreach (var sensor in hardwareItem.Sensors)
+                {
+                    //UPDATE VALUES
+                    //int index = monitoring_data.FindIndex()
+                    //double maxValue = Math.Max(Convert.ToDouble(sensor.Value), monitoring_data[index].GetMaxValue())
+                    //monitoring_data[index].SetValue(Convert.ToDouble(sensor.Value))
+                    //monitoring_data[index].SetMaxValue(maxValue)
+                }
+            }
+
+            showMonitoring();
+        }
+
+        void showMonitoring()
+        {
+            List<string[]> monitoring = new List<string[]>();
+            List<string> lst = new List<string>();
+            monitoring.Add(new string[] { "Hardware name", "Sensor type", "Sensor name", "Value", "Max value" });
+            foreach (var item in monitoring_data)
+            {
+                if (!lst.Contains(item.GetHardwareName()))
+                {
+                    lst.Clear();
+                    monitoring.Add(new string[] { item.GetHardwareName(), "", "", "", "" });
+                    lst.Add(item.GetHardwareName());
+                }
+                if (!lst.Contains(item.GetSensorType().ToString()))
+                {
+                    monitoring.Add(new string[] { "", item.GetSensorType().ToString(), "", "", "" });
+                    lst.Add(item.GetSensorType().ToString());
+                }
+
+                if (item.GetSensorType() == SensorType.Clock)
+                {
+                    monitoring.Add(new string[] { "", "", item.GetName(), item.GetValue().ToString() + " MHz", item.GetMaxValue().ToString() + " MHz" });
+                }
+                else if (item.GetSensorType() == SensorType.Temperature)
+                {
+                    monitoring.Add(new string[] { "", "", item.GetName(), item.GetValue().ToString() + " °C", item.GetMaxValue().ToString() + " °C" });
+                }
+                else if (item.GetSensorType() == SensorType.Load)
+                {
+                    monitoring.Add(new string[] { "", "", item.GetName(), item.GetValue().ToString() + " %", item.GetMaxValue().ToString() + " %" });
+                }
+                else if (item.GetSensorType() == SensorType.Data)
+                {
+                    monitoring.Add(new string[] { "", "", item.GetName(), item.GetValue().ToString() + " GB", item.GetMaxValue().ToString() + " GB" });
+                }
+                else if (item.GetSensorType() == SensorType.SmallData)
+                {
+                    monitoring.Add(new string[] { "", "", item.GetName(), item.GetValue().ToString() + " MB", item.GetMaxValue().ToString() + " MB" });
+                }
+                else if (item.GetSensorType() == SensorType.Power)
+                {
+                    monitoring.Add(new string[] { "", "", item.GetName(), item.GetValue().ToString() + " W", item.GetMaxValue().ToString() + " W" });
+                }
+            }
+
+            //TODO monitoring_data sort by hardware->sensor type 
+
+            dgvMonitoring.ColumnCount = 5;
             dgvMonitoring.RowCount = monitoring.Count;
 
             for (int i = 0; i < monitoring.Count; i++)
             {
                 dgvMonitoring[0, i].Value = monitoring[i][0];
                 dgvMonitoring[1, i].Value = monitoring[i][1];
+                dgvMonitoring[2, i].Value = monitoring[i][2];
+                dgvMonitoring[3, i].Value = monitoring[i][3];
+                dgvMonitoring[4, i].Value = monitoring[i][4];
             }
         }
 
