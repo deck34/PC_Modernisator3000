@@ -588,9 +588,12 @@ namespace PC_Modernisator3000
                     //UPDATE VALUES
                     
                     int index = monitoring_data.FindIndex(x => (x.GetName() == sensor.Name && x.GetHardwareName() == hardwareItem.Name && x.GetSensorType() == sensor.SensorType));
-                    double maxValue = Math.Max(Convert.ToDouble(sensor.Value), monitoring_data[index].GetMaxValue());
-                    monitoring_data[index].SetValue((float)Convert.ToDouble(sensor.Value));
-                    monitoring_data[index].SetMaxValue((float)maxValue);
+                    if (index >= 0)
+                    {
+                        double maxValue = Math.Max(Convert.ToDouble(sensor.Value), monitoring_data[index].GetMaxValue());
+                        monitoring_data[index].SetValue((float)Convert.ToDouble(sensor.Value));
+                        monitoring_data[index].SetMaxValue((float)maxValue);
+                    }
                 }
             }
 
@@ -768,8 +771,15 @@ namespace PC_Modernisator3000
         {
             while (true)
             {
-                Thread.Sleep(1000);
-                updateMonitoring();
+                try
+                {
+                    Thread.Sleep(1000);
+                    updateMonitoring();
+                }
+                catch (Exception)
+                {
+
+                }
             }
         }
     }
