@@ -48,10 +48,11 @@ namespace PC_Modernisator3000
         public Modernizator()
         {
             InitializeComponent();
-            btnUpdateMonitoring.Visible = false;
+            //btnExporMonitoring.Visible = false;
             cbPrecedent.SelectedIndexChanged += cbPrecedentTypeSelectedIndexChanged;
             //Parser.generateFile(0, null);
             cbDeviceType.SelectedIndexChanged += cbDeviceTypeSelectedIndexChanged;
+            //dgvMonitoring.SelectionChanged += dgvMonitoringSelectionChanged;
             btnAdd.Click += btnAdd_Click;
             firstfunction();
             initPrecedents();
@@ -523,11 +524,6 @@ namespace PC_Modernisator3000
             }
         }
 
-        private void btnUpdateMonitoring_Click(object sender, EventArgs e)
-        {
-            updateMonitoring();
-        }
-
         void initMonitoring()
         {
             var myComputer = new Computer();
@@ -781,6 +777,26 @@ namespace PC_Modernisator3000
 
                 }
             }
+        }
+
+        private void dgvMonitoringSelectionChanged(object sender, EventArgs e)
+        {
+
+            //if (dgvMonitoring.SelectedRows.Count > 0)
+            //{
+            //    var index = dgvMonitoring.SelectedRows[0].Index;
+            //    MessageBox.Show("AAAAAA: " + index.ToString());
+            //}
+            
+        }
+
+        private void btnUpdateMonitoring_Click(object sender, EventArgs e)
+        {
+            if (monitoring_data.Count > 0)
+            {
+                Chart chart = new Chart(monitoring_data);
+                chart.Show();
+            }           
         }
     }
 }

@@ -8,12 +8,31 @@ using OpenHardwareMonitor.Hardware;
 
 namespace PC_Modernisator3000
 {
+    public class VALUE
+    {
+        private double value;
+        private DateTime dtime;
+        public VALUE(double value, DateTime dtime)
+        {
+            this.value = value;
+            this.dtime = dtime;
+        }
+
+        public double getVal()
+        {
+            return this.value;
+        }
+        public DateTime getTime()
+        {
+            return this.dtime;
+        }
+    }
     public class Monitoring
     {
         private SensorType sensorType;
         private String HardwareName;
         private String name;
-        private double value;
+        private List<VALUE> value = new List<VALUE>();
         private double maxValue;
 
         public Monitoring(SensorType sensorType, String HardwareName, String name, double value)
@@ -21,7 +40,7 @@ namespace PC_Modernisator3000
             this.sensorType = sensorType;
             this.HardwareName = HardwareName;
             this.name = name;
-            this.value = value;
+            this.value.Add(new VALUE(value,DateTime.Now.ToLocalTime()));
             this.maxValue = value;
         }
 
@@ -41,12 +60,12 @@ namespace PC_Modernisator3000
 
         public double GetValue()
         {
-            return this.value;
+            return this.value.Last().getVal();
         }
 
         public void SetValue(float value)
         {
-            this.value = value;
+            this.value.Add(new VALUE(value, DateTime.Now.ToLocalTime()));
         }
 
         public double GetMaxValue()
@@ -57,6 +76,11 @@ namespace PC_Modernisator3000
         public void SetMaxValue(float maxValue)
         {
             this.maxValue = maxValue;
+        }
+
+        public List<VALUE> getAllValue()
+        {
+            return this.value;
         }
     }
 }
