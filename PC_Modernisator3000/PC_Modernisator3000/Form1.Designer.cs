@@ -62,7 +62,7 @@
             this.cbDeviceType = new System.Windows.Forms.ComboBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.tabPage10 = new System.Windows.Forms.TabPage();
-            this.btnUpdateMonitoring = new System.Windows.Forms.Button();
+            this.btnChartMonitoring = new System.Windows.Forms.Button();
             this.dgvMonitoring = new System.Windows.Forms.DataGridView();
             this.labePages = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -492,7 +492,7 @@
             // 
             // tabPage10
             // 
-            this.tabPage10.Controls.Add(this.btnUpdateMonitoring);
+            this.tabPage10.Controls.Add(this.btnChartMonitoring);
             this.tabPage10.Controls.Add(this.dgvMonitoring);
             this.tabPage10.Location = new System.Drawing.Point(4, 22);
             this.tabPage10.Name = "tabPage10";
@@ -502,16 +502,16 @@
             this.tabPage10.Text = "Monitoring of PC parameters";
             this.tabPage10.UseVisualStyleBackColor = true;
             // 
-            // btnUpdateMonitoring
+            // btnChartMonitoring
             // 
-            this.btnUpdateMonitoring.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnUpdateMonitoring.Location = new System.Drawing.Point(6, 469);
-            this.btnUpdateMonitoring.Name = "btnUpdateMonitoring";
-            this.btnUpdateMonitoring.Size = new System.Drawing.Size(75, 23);
-            this.btnUpdateMonitoring.TabIndex = 2;
-            this.btnUpdateMonitoring.Text = "Обновить";
-            this.btnUpdateMonitoring.UseVisualStyleBackColor = true;
-            this.btnUpdateMonitoring.Click += new System.EventHandler(this.btnUpdateMonitoring_Click);
+            this.btnChartMonitoring.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnChartMonitoring.Location = new System.Drawing.Point(6, 469);
+            this.btnChartMonitoring.Name = "btnChartMonitoring";
+            this.btnChartMonitoring.Size = new System.Drawing.Size(138, 23);
+            this.btnChartMonitoring.TabIndex = 2;
+            this.btnChartMonitoring.Text = "Показать график";
+            this.btnChartMonitoring.UseVisualStyleBackColor = true;
+            this.btnChartMonitoring.Click += new System.EventHandler(this.btnUpdateMonitoring_Click);
             // 
             // dgvMonitoring
             // 
@@ -524,9 +524,11 @@
             this.dgvMonitoring.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvMonitoring.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvMonitoring.Location = new System.Drawing.Point(6, 6);
+            this.dgvMonitoring.MultiSelect = false;
             this.dgvMonitoring.Name = "dgvMonitoring";
             this.dgvMonitoring.ReadOnly = true;
-            this.dgvMonitoring.Size = new System.Drawing.Size(709, 486);
+            this.dgvMonitoring.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvMonitoring.Size = new System.Drawing.Size(709, 457);
             this.dgvMonitoring.TabIndex = 1;
             // 
             // labePages
@@ -677,7 +679,7 @@
         private System.Windows.Forms.ComboBox cbPrecedent;
         private System.Windows.Forms.TabPage tabPage10;
         private System.Windows.Forms.DataGridView dgvMonitoring;
-        private System.Windows.Forms.Button btnUpdateMonitoring;
+        private System.Windows.Forms.Button btnChartMonitoring;
         private System.Windows.Forms.Label labelPrec;
         private System.Windows.Forms.Button btnReport;
         private System.Windows.Forms.Button TestBtn;
