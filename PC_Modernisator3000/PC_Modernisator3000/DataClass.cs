@@ -8,12 +8,12 @@ namespace PC_Modernisator3000
 {
     public class DataClass
     {
-        public HDD hdd;
+        public List<HDD> hdd;
         public GPU gpu;
         public CPU cpu;
         public Memory memory;
 
-        public DataClass(HDD hdd, GPU gpu, CPU cpu, Memory memory)
+        public DataClass(List<HDD> hdd, GPU gpu, CPU cpu, Memory memory)
         {
             this.hdd = hdd;
             this.gpu = gpu;

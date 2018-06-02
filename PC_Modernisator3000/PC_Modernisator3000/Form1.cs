@@ -675,7 +675,7 @@ namespace PC_Modernisator3000
             myComputer.HDDEnabled = true;
             myComputer.MainboardEnabled = true;
             myComputer.Open();
-            DataClass.HDD hdd = new DataClass.HDD(0);
+            List<DataClass.HDD> hdd = new List<DataClass.HDD>();
             DataClass.CPU cpu = new DataClass.CPU(0, 0);
             DataClass.GPU gpu = new DataClass.GPU(0, 0, 0);
             DataClass.Memory mem = new DataClass.Memory(0);
@@ -686,9 +686,12 @@ namespace PC_Modernisator3000
                 hardwareItem.Update();
                 foreach (var sensor in hardwareItem.Sensors)
                 {
-                    if (hardwareItem.HardwareType == HardwareType.HDD && sensor.Name == "Used Space")
-                        hdd.setData(Convert.ToDouble(sensor.Value));
 
+                    if (hardwareItem.HardwareType == HardwareType.HDD && sensor.Name == "Used Space")
+                    {
+                        DataClass.HDD hdd_ = new DataClass.HDD(Convert.ToDouble(sensor.Value));
+                        hdd.Add(hdd_);
+                    }
                     if (hardwareItem.HardwareType == HardwareType.RAM && sensor.Name == "Memory")
                         mem.setData(Convert.ToDouble(sensor.Value));
 
