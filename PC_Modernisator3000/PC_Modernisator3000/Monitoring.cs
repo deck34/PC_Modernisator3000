@@ -82,5 +82,10 @@ namespace PC_Modernisator3000
         {
             return this.value;
         }
+
+        public string toString()
+        {
+            return HardwareName.ToString() + ";" + sensorType.ToString() + ";" + name.ToString() + ";" + value.ToString();
+        }
     }
 }

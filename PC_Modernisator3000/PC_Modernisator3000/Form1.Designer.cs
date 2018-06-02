@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
@@ -381,14 +381,14 @@
             this.dgvAfter.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvAfter.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAfter.ColumnHeadersVisible = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvAfter.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvAfter.DefaultCellStyle = dataGridViewCellStyle7;
             this.dgvAfter.Location = new System.Drawing.Point(371, 25);
             this.dgvAfter.MultiSelect = false;
             this.dgvAfter.Name = "dgvAfter";
@@ -408,14 +408,14 @@
             this.dgvBefore.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvBefore.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvBefore.ColumnHeadersVisible = false;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvBefore.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvBefore.DefaultCellStyle = dataGridViewCellStyle8;
             this.dgvBefore.Location = new System.Drawing.Point(7, 25);
             this.dgvBefore.Name = "dgvBefore";
             this.dgvBefore.ReadOnly = true;
@@ -513,7 +513,7 @@
             this.btnChartMonitoring.Name = "btnChartMonitoring";
             this.btnChartMonitoring.Size = new System.Drawing.Size(138, 23);
             this.btnChartMonitoring.TabIndex = 2;
-            this.btnChartMonitoring.Text = "Показать график";
+            this.btnChartMonitoring.Text = "View chart";
             this.btnChartMonitoring.UseVisualStyleBackColor = true;
             this.btnChartMonitoring.Click += new System.EventHandler(this.btnUpdateMonitoring_Click);
             // 
@@ -601,6 +601,7 @@
             // 
             // bgUpdateMonitoring
             // 
+            this.bgUpdateMonitoring.WorkerSupportsCancellation = true;
             this.bgUpdateMonitoring.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgUpdateMonitoring_DoWork);
             // 
             // btnAnalyseLog
@@ -609,7 +610,7 @@
             this.btnAnalyseLog.Name = "btnAnalyseLog";
             this.btnAnalyseLog.Size = new System.Drawing.Size(160, 23);
             this.btnAnalyseLog.TabIndex = 3;
-            this.btnAnalyseLog.Text = "Выполнить анализ данных";
+            this.btnAnalyseLog.Text = "Analyse data";
             this.btnAnalyseLog.UseVisualStyleBackColor = true;
             this.btnAnalyseLog.Click += new System.EventHandler(this.btnAnalyseLog_Click);
             // 
@@ -619,7 +620,7 @@
             this.btnPlayStopLogThread.Name = "btnPlayStopLogThread";
             this.btnPlayStopLogThread.Size = new System.Drawing.Size(149, 23);
             this.btnPlayStopLogThread.TabIndex = 4;
-            this.btnPlayStopLogThread.Text = "Включить сбор данных";
+            this.btnPlayStopLogThread.Text = "Enable data collection";
             this.btnPlayStopLogThread.UseVisualStyleBackColor = true;
             this.btnPlayStopLogThread.Click += new System.EventHandler(this.btnPlayStopLogThread_Click);
             // 

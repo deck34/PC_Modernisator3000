@@ -13,22 +13,24 @@ using OpenHardwareMonitor.Collections;
 using OpenHardwareMonitor.Hardware;
 using System.Threading;
 using System.Globalization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace PC_Modernisator3000
 {
     public partial class Modernizator : Form
     {
-        
+
         Sysinfo sysinfo = new Sysinfo();
         // Sysinfo sysinfoModified = new Sysinfo();
         List<Item> curconf = new List<Item>();
         List<Item> conf = new List<Item>();
         List<Item> templist = new List<Item>();
         List<Monitoring> monitoring_data = new List<Monitoring>();
-
         string currentSocket = "";
         string currentDDR = "";
         bool MBInstalled = false;
+        bool collection_data = false;
 
         Dictionary<string, string[]> precedents = new Dictionary<string, string[]>();
 
@@ -56,7 +58,6 @@ namespace PC_Modernisator3000
             btnAdd.Click += btnAdd_Click;
             firstfunction();
             initPrecedents();
-            initMonitoring();
         }
 
         void firstfunction()
@@ -96,13 +97,14 @@ namespace PC_Modernisator3000
             try
             {
                 t = new Parser();
-            }catch(Exception msg)
+            }
+            catch (Exception msg)
             {
                 MessageBox.Show("Не удалось найти файл парсера. Пожалуйста, нажмите кнопку \"Пропарсить ситилинк\" и дождитесь конца.");
                 cbDeviceType.SelectedIndex = -1;
                 return;
             }
-            
+
             switch (cbDeviceType.SelectedItem.ToString())
             {
                 case "CPU":
@@ -110,7 +112,7 @@ namespace PC_Modernisator3000
                     List<Item> a = Parser.find(t.cpu.ToList<Item>(), "socket", currentSocket);
                     foreach (CPU i in a)
                     {
-                        list.Add(i.toStrArray()[1] );
+                        list.Add(i.toStrArray()[1]);
                     }
                     cbDevice.Items.AddRange(list.ToArray<string>());
                     templist = a;
@@ -225,7 +227,7 @@ namespace PC_Modernisator3000
             }
             checkConflicts();
         }
-        
+
         private void btnAdd_Click(object sender, EventArgs e)
         {
             conf.Add(templist[cbDevice.SelectedIndex]);
@@ -248,11 +250,11 @@ namespace PC_Modernisator3000
             int cpu = 0, mb = 0;
             List<string[]> checklist = new List<string[]>();
             int j = 0;
-            foreach(var i in conf)
+            foreach (var i in conf)
             {
                 string[] temp = i.toStrArray();
                 checklist.Add(temp);
-                if (temp[0] == "CPU") 
+                if (temp[0] == "CPU")
                 {
                     cpu++;
                     if (i.get("socket") != currentSocket && MBInstalled)
@@ -284,11 +286,11 @@ namespace PC_Modernisator3000
                 msg += "Более 1 МАТ. ПЛАТЫ и ПРОЦЕССОРА!\n Удалите лишнее!.";
             else if (cpu > 1 && mb == 1)
                 msg += "Более 1 ПРОЦЕССОРА!\n Удалите лишнее!.";
-           else if (mb > 1 && cpu == 1)
+            else if (mb > 1 && cpu == 1)
                 msg += "Более 1 МАТ. ПЛАТЫ!\n Удалите лишнее!.";
 
             if (msg.Length > 0)
-                    MessageBox.Show(msg, "Что-то пошло не так...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(msg, "Что-то пошло не так...", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 
         }
@@ -317,8 +319,8 @@ namespace PC_Modernisator3000
                 updateMofificationTable();
                 if (MBInstalled == false)
                 {
-                   // dgvAfter.DefaultCellStyle.BackColor = Color.PaleVioletRed;
-                   // MessageBox.Show("Для работы компьютера необходима МАТ. ПЛАТА\nВыберите ее!", "Что-то пошло не так...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // dgvAfter.DefaultCellStyle.BackColor = Color.PaleVioletRed;
+                    // MessageBox.Show("Для работы компьютера необходима МАТ. ПЛАТА\nВыберите ее!", "Что-то пошло не так...", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -375,7 +377,7 @@ namespace PC_Modernisator3000
 
         void initSysInfo()
         {
-            dgvCPU.Rows.Clear(); 
+            dgvCPU.Rows.Clear();
             dgvHDD.Rows.Clear();
             dgvMB.Rows.Clear();
             dgvPower.Rows.Clear();
@@ -513,7 +515,7 @@ namespace PC_Modernisator3000
 
         private void btn_parse_Click(object sender, EventArgs e)
         {
-            
+
             try
             {
                 Parser.generateFile((int)numPages.Value);
@@ -542,7 +544,7 @@ namespace PC_Modernisator3000
 
                 foreach (var sensor in hardwareItem.Sensors)
                 {
-                   // if(sensor.SensorType != SensorType.Fan && sensor.SensorType != SensorType.Control && sensor.SensorType != SensorType.Factor)
+                    // if(sensor.SensorType != SensorType.Fan && sensor.SensorType != SensorType.Control && sensor.SensorType != SensorType.Factor)
                     monitoring_data.Add(new Monitoring(sensor.SensorType, hardwareItem.Name, sensor.Name, Convert.ToDouble(sensor.Value)));
                 }
             }
@@ -582,7 +584,7 @@ namespace PC_Modernisator3000
                 foreach (var sensor in hardwareItem.Sensors)
                 {
                     //UPDATE VALUES
-                    
+
                     int index = monitoring_data.FindIndex(x => (x.GetName() == sensor.Name && x.GetHardwareName() == hardwareItem.Name && x.GetSensorType() == sensor.SensorType));
                     if (index >= 0)
                     {
@@ -601,6 +603,7 @@ namespace PC_Modernisator3000
             List<string[]> monitoring = new List<string[]>();
             List<string> lst = new List<string>();
             monitoring.Add(new string[] { "Hardware name", "Sensor type", "Sensor name", "Value", "Max value" });
+
             foreach (var item in monitoring_data)
             {
                 if (!lst.Contains(item.GetHardwareName()))
@@ -617,7 +620,7 @@ namespace PC_Modernisator3000
 
                 if (item.GetSensorType() == SensorType.Clock)
                 {
-                    monitoring.Add(new string[] { "", "", item.GetName(), String.Format(CultureInfo.InvariantCulture,"{0:0.00}", item.GetValue()) + " MHz", String.Format(CultureInfo.InvariantCulture, "{0:0.00}", item.GetMaxValue()) + " MHz" });
+                    monitoring.Add(new string[] { "", "", item.GetName(), String.Format(CultureInfo.InvariantCulture, "{0:0.00}", item.GetValue()) + " MHz", String.Format(CultureInfo.InvariantCulture, "{0:0.00}", item.GetMaxValue()) + " MHz" });
                 }
                 else if (item.GetSensorType() == SensorType.Temperature)
                 {
@@ -659,7 +662,60 @@ namespace PC_Modernisator3000
                 dgvMonitoring[2, i].Value = monitoring[i][2];
                 dgvMonitoring[3, i].Value = monitoring[i][3];
                 dgvMonitoring[4, i].Value = monitoring[i][4];
+            }      
+        }
+
+        void ReadWriteLog()
+        {
+
+            var myComputer = new Computer();
+            myComputer.CPUEnabled = true;
+            myComputer.GPUEnabled = true;
+            myComputer.RAMEnabled = true;
+            myComputer.HDDEnabled = true;
+            myComputer.MainboardEnabled = true;
+            myComputer.Open();
+            DataClass.HDD hdd = new DataClass.HDD(0);
+            DataClass.CPU cpu = new DataClass.CPU(0, 0);
+            DataClass.GPU gpu = new DataClass.GPU(0, 0, 0);
+            DataClass.Memory mem = new DataClass.Memory(0);
+
+            foreach (var hardwareItem in myComputer.Hardware)
+            {
+                var a = hardwareItem.GetType();
+                hardwareItem.Update();
+                foreach (var sensor in hardwareItem.Sensors)
+                {
+                    if (hardwareItem.HardwareType == HardwareType.HDD && sensor.Name == "Used Space")
+                        hdd.setData(Convert.ToDouble(sensor.Value));
+
+                    if (hardwareItem.HardwareType == HardwareType.RAM && sensor.Name == "Memory")
+                        mem.setData(Convert.ToDouble(sensor.Value));
+
+                    if (hardwareItem.HardwareType == HardwareType.CPU && sensor.Name == "CPU Package")
+                        cpu.setTemp(Convert.ToDouble(sensor.Value));
+                    if (hardwareItem.HardwareType == HardwareType.CPU && sensor.Name == "CPU Total")
+                        cpu.setLoad(Convert.ToDouble(sensor.Value));
+
+                    if ((hardwareItem.HardwareType == HardwareType.GpuNvidia || hardwareItem.HardwareType == HardwareType.GpuAti) && sensor.Name == "GPU Core")
+                        gpu.setTemp(Convert.ToDouble(sensor.Value));
+                    if ((hardwareItem.HardwareType == HardwareType.GpuNvidia || hardwareItem.HardwareType == HardwareType.GpuAti) && sensor.Name == "GPU Video Engine")
+                        gpu.setLoad(Convert.ToDouble(sensor.Value));
+                    if ((hardwareItem.HardwareType == HardwareType.GpuNvidia || hardwareItem.HardwareType == HardwareType.GpuAti) && sensor.Name == "GPU Memory")
+                        gpu.setMemLoad(Convert.ToDouble(sensor.Value));
+                }
             }
+            Dictionary<string, DataClass> log = new Dictionary<string, DataClass>();
+            DataClass data = new DataClass(hdd, gpu, cpu, mem);
+            string time = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss:fff");
+            log.Add(time, data);
+
+            string serialized = JsonConvert.SerializeObject(log);
+            string FileName = "HLog.json";
+            StreamWriter json = new StreamWriter(FileName, true, System.Text.Encoding.GetEncoding(1251)); // Win-кодировка
+            json.WriteLine(serialized);
+            json.Close();
+
         }
 
         private void btnReport_Click(object sender, EventArgs e)
@@ -690,7 +746,7 @@ namespace PC_Modernisator3000
                 for (int i = 0; i < conf.Count; i++)
                 {
                     var temp = conf[i].toStrArray();
-                    txt.WriteLine(temp[0]+": "+ temp[1]);
+                    txt.WriteLine(temp[0] + ": " + temp[1]);
                     if (conf[i].webAddress != null)
                         txt.WriteLine("Ссылка на товар: " + conf[i].webAddress);
                 }
@@ -771,6 +827,7 @@ namespace PC_Modernisator3000
                 {
                     Thread.Sleep(1000);
                     updateMonitoring();
+                    ReadWriteLog();
                 }
                 catch (Exception)
                 {
@@ -787,7 +844,7 @@ namespace PC_Modernisator3000
             //    var index = dgvMonitoring.SelectedRows[0].Index;
             //    MessageBox.Show("AAAAAA: " + index.ToString());
             //}
-            
+
         }
 
         private void btnUpdateMonitoring_Click(object sender, EventArgs e)
@@ -796,7 +853,7 @@ namespace PC_Modernisator3000
             {
                 Chart chart = new Chart(monitoring_data);
                 chart.Show();
-            }           
+            }
         }
 
         private void btnAnalyseLog_Click(object sender, EventArgs e)
@@ -807,6 +864,19 @@ namespace PC_Modernisator3000
         private void btnPlayStopLogThread_Click(object sender, EventArgs e)
         {
 
+            if (collection_data)
+            {
+                collection_data = false;
+                bgUpdateMonitoring.CancelAsync();
+                bgUpdateMonitoring.Dispose();
+                btnPlayStopLogThread.Text = "Enable data collection";
+            }
+            else
+            {
+                collection_data = true;
+                initMonitoring();
+                btnPlayStopLogThread.Text = "Disable data collection";
+            }
         }
     }
 }
