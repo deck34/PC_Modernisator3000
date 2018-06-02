@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
@@ -62,6 +62,8 @@
             this.cbDeviceType = new System.Windows.Forms.ComboBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.tabPage10 = new System.Windows.Forms.TabPage();
+            this.btnPlayStopLogThread = new System.Windows.Forms.Button();
+            this.btnAnalyseLog = new System.Windows.Forms.Button();
             this.btnChartMonitoring = new System.Windows.Forms.Button();
             this.dgvMonitoring = new System.Windows.Forms.DataGridView();
             this.labePages = new System.Windows.Forms.Label();
@@ -72,8 +74,6 @@
             this.TestBtn = new System.Windows.Forms.Button();
             this.bgUpdateMonitoring = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.btnAnalyseLog = new System.Windows.Forms.Button();
-            this.btnPlayStopLogThread = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabControl2.SuspendLayout();
@@ -381,14 +381,14 @@
             this.dgvAfter.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvAfter.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAfter.ColumnHeadersVisible = false;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvAfter.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvAfter.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvAfter.Location = new System.Drawing.Point(371, 25);
             this.dgvAfter.MultiSelect = false;
             this.dgvAfter.Name = "dgvAfter";
@@ -408,14 +408,14 @@
             this.dgvBefore.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvBefore.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvBefore.ColumnHeadersVisible = false;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvBefore.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvBefore.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvBefore.Location = new System.Drawing.Point(7, 25);
             this.dgvBefore.Name = "dgvBefore";
             this.dgvBefore.ReadOnly = true;
@@ -505,6 +505,28 @@
             this.tabPage10.TabIndex = 2;
             this.tabPage10.Text = "Monitoring of PC parameters";
             this.tabPage10.UseVisualStyleBackColor = true;
+            // 
+            // btnPlayStopLogThread
+            // 
+            this.btnPlayStopLogThread.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnPlayStopLogThread.Location = new System.Drawing.Point(153, 470);
+            this.btnPlayStopLogThread.Name = "btnPlayStopLogThread";
+            this.btnPlayStopLogThread.Size = new System.Drawing.Size(149, 23);
+            this.btnPlayStopLogThread.TabIndex = 4;
+            this.btnPlayStopLogThread.Text = "Enable data collection";
+            this.btnPlayStopLogThread.UseVisualStyleBackColor = true;
+            this.btnPlayStopLogThread.Click += new System.EventHandler(this.btnPlayStopLogThread_Click);
+            // 
+            // btnAnalyseLog
+            // 
+            this.btnAnalyseLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAnalyseLog.Location = new System.Drawing.Point(308, 469);
+            this.btnAnalyseLog.Name = "btnAnalyseLog";
+            this.btnAnalyseLog.Size = new System.Drawing.Size(160, 23);
+            this.btnAnalyseLog.TabIndex = 3;
+            this.btnAnalyseLog.Text = "Analyse data";
+            this.btnAnalyseLog.UseVisualStyleBackColor = true;
+            this.btnAnalyseLog.Click += new System.EventHandler(this.btnAnalyseLog_Click);
             // 
             // btnChartMonitoring
             // 
@@ -603,26 +625,6 @@
             // 
             this.bgUpdateMonitoring.WorkerSupportsCancellation = true;
             this.bgUpdateMonitoring.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgUpdateMonitoring_DoWork);
-            // 
-            // btnAnalyseLog
-            // 
-            this.btnAnalyseLog.Location = new System.Drawing.Point(555, 469);
-            this.btnAnalyseLog.Name = "btnAnalyseLog";
-            this.btnAnalyseLog.Size = new System.Drawing.Size(160, 23);
-            this.btnAnalyseLog.TabIndex = 3;
-            this.btnAnalyseLog.Text = "Analyse data";
-            this.btnAnalyseLog.UseVisualStyleBackColor = true;
-            this.btnAnalyseLog.Click += new System.EventHandler(this.btnAnalyseLog_Click);
-            // 
-            // btnPlayStopLogThread
-            // 
-            this.btnPlayStopLogThread.Location = new System.Drawing.Point(153, 470);
-            this.btnPlayStopLogThread.Name = "btnPlayStopLogThread";
-            this.btnPlayStopLogThread.Size = new System.Drawing.Size(149, 23);
-            this.btnPlayStopLogThread.TabIndex = 4;
-            this.btnPlayStopLogThread.Text = "Enable data collection";
-            this.btnPlayStopLogThread.UseVisualStyleBackColor = true;
-            this.btnPlayStopLogThread.Click += new System.EventHandler(this.btnPlayStopLogThread_Click);
             // 
             // Modernizator
             // 

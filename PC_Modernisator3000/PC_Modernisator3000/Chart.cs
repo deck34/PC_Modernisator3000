@@ -121,5 +121,17 @@ namespace PC_Modernisator3000
             ChartView.Invalidate();
             //ZoomGrid(1.5f);
         }
+
+        //void draw()
+        //{
+        //    ChartView.GraphPane.CurveList.Clear();
+        //    ChartView.GraphPane.GraphObjList.Clear();
+        //    myPane = ChartView.GraphPane;
+        //    string[] s = { "1", "2", "3" };
+        //    double[] d = {1,2,3};
+        //    myPane.AddPieSlices(d,s);
+        //    ChartView.AxisChange();
+        //    ChartView.Invalidate();
+        //}
     }
 }
