@@ -91,11 +91,11 @@ namespace PC_Modernisator3000
         void drawChart(int index)
         {
             ChartView.GraphPane.CurveList.Clear();
-            ChartView.GraphPane.GraphItemList.Clear();
+            ChartView.GraphPane.GraphObjList.Clear();
             myPane = ChartView.GraphPane;
-            myPane.Title = monitoring_data[index].GetHardwareName() + " " + monitoring_data[index].GetName() + " " + monitoring_data[index].GetSensorType();
-            myPane.XAxis.Title = "time";
-            myPane.YAxis.Title = "value";
+            myPane.Title.Text = monitoring_data[index].GetHardwareName() + " " + monitoring_data[index].GetName() + " " + monitoring_data[index].GetSensorType();
+            myPane.XAxis.Title.Text = "time";
+            myPane.YAxis.Title.Text = "value";
 
             var values = monitoring_data[index].getAllValue();
 
