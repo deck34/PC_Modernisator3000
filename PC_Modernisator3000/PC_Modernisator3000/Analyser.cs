@@ -13,6 +13,26 @@ namespace PC_Modernisator3000
 {
     public partial class Analyser : Form
     {
+        Color[] colors = {Color.Blue,
+                Color.Green,
+                Color.Red,
+                Color.Cyan,
+                Color.Olive,
+                Color.YellowGreen,
+                Color.Black,
+                Color.BlueViolet,
+                Color.Gold,
+                Color.Pink,
+                Color.Aqua,
+                Color.Brown,
+                Color.DarkBlue,
+                Color.DarkGreen,
+                Color.DeepSkyBlue,
+                Color.Green,
+                Color.Indigo,
+                Color.Lime,
+                Color.MistyRose,
+                Color.Navy};
         string pathFile;
         GraphPane piePane;
         GraphPane piePaneProblems;
@@ -58,12 +78,16 @@ namespace PC_Modernisator3000
             piePane.Title.Text = "Ratio of dangerous state to normal for parts";
             var labels = new List<string>();
             var values = new List<double>();
+            int i = 0;
             foreach (var key in data.Keys)
             {
-                values.Add(data[key]);
-                labels.Add(key.ToString());
+                PieItem pieSlice = piePane.AddPieSlice(data[key], colors[i], 0F, key.ToString());
+                //pieSlice.LabelType = PieLabelType.None;
+                //values.Add(data[key]);
+                //labels.Add(key.ToString());
+                i++;
             }
-            piePane.AddPieSlices(values.ToArray(), labels.ToArray());
+            //piePane.AddPieSlices(values.ToArray(), labels.ToArray());
             ChartView.AxisChange();
             ChartView.Invalidate();
         }

@@ -700,9 +700,9 @@ namespace PC_Modernisator3000
                     if (hardwareItem.HardwareType == HardwareType.CPU && sensor.Name == "CPU Total")
                         cpu.setLoad(Convert.ToDouble(sensor.Value));
 
-                    if ((hardwareItem.HardwareType == HardwareType.GpuNvidia || hardwareItem.HardwareType == HardwareType.GpuAti) && sensor.Name == "GPU Core")
+                    if ((hardwareItem.HardwareType == HardwareType.GpuNvidia || hardwareItem.HardwareType == HardwareType.GpuAti) && sensor.SensorType == SensorType.Temperature && sensor.Name == "GPU Core")
                         gpu.setTemp(Convert.ToDouble(sensor.Value));
-                    if ((hardwareItem.HardwareType == HardwareType.GpuNvidia || hardwareItem.HardwareType == HardwareType.GpuAti) && sensor.Name == "GPU Video Engine")
+                    if ((hardwareItem.HardwareType == HardwareType.GpuNvidia || hardwareItem.HardwareType == HardwareType.GpuAti) && sensor.SensorType == SensorType.Load && sensor.Name == "GPU Core")
                         gpu.setLoad(Convert.ToDouble(sensor.Value));
                     if ((hardwareItem.HardwareType == HardwareType.GpuNvidia || hardwareItem.HardwareType == HardwareType.GpuAti) && sensor.Name == "GPU Memory")
                         gpu.setMemLoad(Convert.ToDouble(sensor.Value));

@@ -12,7 +12,7 @@ namespace PC_Modernisator3000
     enum ProblemParts { OK, GPU, HDD, RAM, CPU };
     enum Problems {
         OK, HDD_LACK_OF_MEMORY, RAM_LACK_OF_MEMORY, CPU_OVERHEAT, CPU_OVERLOAD,
-        CPU_TROTTING, GPU_OVERHEAT, GPU_OVERLOAD, GPU_LACK_OF_MEMORY, GPU_TROTTING
+        CPU_TROTTLING, GPU_OVERHEAT, GPU_OVERLOAD, GPU_LACK_OF_MEMORY, GPU_TROTTLING
     };
     class Analysis
     {
@@ -162,7 +162,7 @@ namespace PC_Modernisator3000
             //check cpu trotling
             if (data.cpu.temp > 70.0 && data.cpu.load < 50.0)
             {
-                listOfProblems.Add(Problems.CPU_TROTTING);
+                listOfProblems.Add(Problems.CPU_TROTTLING);
             }
 
             //check gpu temp
@@ -183,7 +183,7 @@ namespace PC_Modernisator3000
             //check gpu trotling
             if (data.gpu.temp > 90.0 && data.gpu.load < 50.0)
             {
-                listOfProblems.Add(Problems.GPU_TROTTING);
+                listOfProblems.Add(Problems.GPU_TROTTLING);
             }
             return listOfProblems;
         }
