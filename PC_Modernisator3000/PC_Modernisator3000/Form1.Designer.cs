@@ -72,6 +72,8 @@
             this.TestBtn = new System.Windows.Forms.Button();
             this.bgUpdateMonitoring = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.btnAnalyseLog = new System.Windows.Forms.Button();
+            this.btnPlayStopLogThread = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabControl2.SuspendLayout();
@@ -492,6 +494,8 @@
             // 
             // tabPage10
             // 
+            this.tabPage10.Controls.Add(this.btnPlayStopLogThread);
+            this.tabPage10.Controls.Add(this.btnAnalyseLog);
             this.tabPage10.Controls.Add(this.btnChartMonitoring);
             this.tabPage10.Controls.Add(this.dgvMonitoring);
             this.tabPage10.Location = new System.Drawing.Point(4, 22);
@@ -599,6 +603,26 @@
             // 
             this.bgUpdateMonitoring.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgUpdateMonitoring_DoWork);
             // 
+            // btnAnalyseLog
+            // 
+            this.btnAnalyseLog.Location = new System.Drawing.Point(555, 469);
+            this.btnAnalyseLog.Name = "btnAnalyseLog";
+            this.btnAnalyseLog.Size = new System.Drawing.Size(160, 23);
+            this.btnAnalyseLog.TabIndex = 3;
+            this.btnAnalyseLog.Text = "Выполнить анализ данных";
+            this.btnAnalyseLog.UseVisualStyleBackColor = true;
+            this.btnAnalyseLog.Click += new System.EventHandler(this.btnAnalyseLog_Click);
+            // 
+            // btnPlayStopLogThread
+            // 
+            this.btnPlayStopLogThread.Location = new System.Drawing.Point(153, 470);
+            this.btnPlayStopLogThread.Name = "btnPlayStopLogThread";
+            this.btnPlayStopLogThread.Size = new System.Drawing.Size(149, 23);
+            this.btnPlayStopLogThread.TabIndex = 4;
+            this.btnPlayStopLogThread.Text = "Включить сбор данных";
+            this.btnPlayStopLogThread.UseVisualStyleBackColor = true;
+            this.btnPlayStopLogThread.Click += new System.EventHandler(this.btnPlayStopLogThread_Click);
+            // 
             // Modernizator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -685,6 +709,8 @@
         private System.Windows.Forms.Button TestBtn;
         private System.ComponentModel.BackgroundWorker bgUpdateMonitoring;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Button btnPlayStopLogThread;
+        private System.Windows.Forms.Button btnAnalyseLog;
     }
 }
 
