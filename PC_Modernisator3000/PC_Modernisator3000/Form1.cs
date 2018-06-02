@@ -861,7 +861,7 @@ namespace PC_Modernisator3000
 
         private void btnAnalyseLog_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void btnPlayStopLogThread_Click(object sender, EventArgs e)
