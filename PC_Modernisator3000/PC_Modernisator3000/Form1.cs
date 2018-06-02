@@ -715,9 +715,24 @@ namespace PC_Modernisator3000
 
             string serialized = JsonConvert.SerializeObject(log);
             string FileName = "HLog.json";
-            StreamWriter json = new StreamWriter(FileName, true, System.Text.Encoding.GetEncoding(1251)); // Win-кодировка
-            json.WriteLine(serialized);
-            json.Close();
+            if(File.Exists(FileName))
+            {
+                StreamReader jsonR = new StreamReader(FileName, Encoding.GetEncoding(1251));
+                var textLog = jsonR.ReadToEnd();
+                jsonR.Close();
+                var stringToInsert = JsonConvert.SerializeObject(time) + ":" + JsonConvert.SerializeObject(data);
+                stringToInsert = textLog.Insert(textLog.Length - 3, ","+stringToInsert);
+                StreamWriter jsonW = new StreamWriter(FileName, false, Encoding.GetEncoding(1251));
+                jsonW.Write(stringToInsert);
+                jsonW.Close();
+            }
+            else
+            {
+
+                StreamWriter json = new StreamWriter(FileName, true, System.Text.Encoding.GetEncoding(1251)); // Win-кодировка
+                json.WriteLine(serialized);
+                json.Close();
+            }
 
         }
 
@@ -861,7 +876,8 @@ namespace PC_Modernisator3000
 
         private void btnAnalyseLog_Click(object sender, EventArgs e)
         {
-
+            Analyser analyser = new Analyser();
+            analyser.Show();
         }
 
         private void btnPlayStopLogThread_Click(object sender, EventArgs e)
